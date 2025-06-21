@@ -1,6 +1,7 @@
 const { getToken } = require('../../../requests/getRequests/getToken');
-const { db } = require('../../../script');
 const { Events } = require('discord.js');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = (client) => {
   client.on(Events.InteractionCreate, async (interaction) => {
@@ -36,8 +37,11 @@ module.exports = (client) => {
           ? { nitrado: { requiredToken, optionalToken } }
           : { nitrado: { requiredToken } };
 
-        await db.collection('ase-configuration').doc(interaction.guild.id).set(data, { merge: true });
-        await interaction.followUp({ content: 'Token uploaded to database, status will update soon.' });
+        // Write only the nitrado info to db.json
+        const dbPath = path.join(__dirname, '../../../other-config/db.json');
+        fs.writeFileSync(dbPath, JSON.stringify(data.nitrado, null, 2));
+
+        await interaction.followUp({ content: 'Token uploaded to file, status will update soon.' });
       };
     };
   });
