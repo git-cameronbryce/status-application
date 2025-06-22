@@ -35,6 +35,6 @@ module.exports = async (client) => {
   };
 
   updateActivity();
-  setInterval(updateActivity, 50000);
+  setInterval(updateActivity, 30000);
   console.log('Activity loop started...');
 };
