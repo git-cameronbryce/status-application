@@ -8,16 +8,6 @@ module.exports = (client) => {
     if (interaction.isModalSubmit()) {
       if (interaction.customId === 'ase-modal-setup') {
         await interaction.deferReply({ ephemeral: true });
-
-        const roles = await interaction.guild.roles.fetch();
-        const action = roles.map(async role => role.name === 'Bot Permission' ? await role.delete() : null);
-        try { await Promise.all(action) } catch (error) { return await interaction.followUp({ content: 'In your settings, move the bot role higher.' }) };
-
-        await interaction.guild.roles.create({
-          name: 'Bot Permission',
-          color: '#ffffff'
-        });
-
         const requiredToken = interaction.fields.getTextInputValue('ase-nitrado-token-required');
         const optionalToken = interaction.fields.getTextInputValue('ase-nitrado-token-optional');
 
